@@ -11,6 +11,7 @@
 #include "Kismet/GameplayStatics.h"
 #include "MotionControllerComponent.h"
 #include "XRMotionControllerBase.h" // for FXRMotionControllerBase::RightHandSourceId
+#include "DrawDebugHelpers.h"
 
 DEFINE_LOG_CATEGORY_STATIC(LogFPChar, Warning, All);
 
@@ -82,6 +83,8 @@ ALiminalCharacter::ALiminalCharacter()
 
 	// Uncomment the following line to turn motion controllers on by default:
 	//bUsingMotionControllers = true;
+
+	CurrentDoor = nullptr;
 }
 
 void ALiminalCharacter::BeginPlay()
@@ -103,6 +106,44 @@ void ALiminalCharacter::BeginPlay()
 		VR_Gun->SetHiddenInGame(true, true);
 		Mesh1P->SetHiddenInGame(false, true);
 	}
+
+	if (InfoWidget)
+	{
+		InfoWidget->AddToViewport();
+	}
+}
+
+void ALiminalCharacter::Tick(float DeltaTime)
+{
+	Super::Tick(DeltaTime);
+
+	FHitResult Hit;
+	FVector Start = FirstPersonCameraComponent->GetComponentLocation();
+
+	FVector ForwardVector = FirstPersonCameraComponent->GetForwardVector();
+	FVector End = (ForwardVector * 200.f) + Start;
+
+	FCollisionQueryParams CollisionParams;
+
+	//DrawDebugLine(GetWorld(), Start, End, FColor::Green, false, 1, 0, 1);
+
+	if (GetWorld()->LineTraceSingleByChannel(Hit, Start, End, ECC_Visibility, CollisionParams))
+	{
+		if (Hit.bBlockingHit)
+		{	
+
+			if (Hit.GetActor()->GetClass()->IsChildOf(ADoor::StaticClass()))
+			{
+				InfoWidget->GetWidgetFromName("helpimage")->SetVisibility(ESlateVisibility::Visible);
+				CurrentDoor = Cast<ADoor>(Hit.Actor);
+			}
+		}
+	}
+	else
+	{
+		InfoWidget->GetWidgetFromName("helpimage")->SetVisibility(ESlateVisibility::Hidden);
+		CurrentDoor = nullptr;
+	}
 }
 
 //////////////////////////////////////////////////////////////////////////
@@ -119,6 +160,8 @@ void ALiminalCharacter::SetupPlayerInputComponent(class UInputComponent* PlayerI
 
 	// Bind fire event
 	PlayerInputComponent->BindAction("Fire", IE_Pressed, this, &ALiminalCharacter::OnFire);
+
+	PlayerInputComponent->BindAction("Action", IE_Pressed, this, &ALiminalCharacter::OnAction);
 
 	// Enable touchscreen input
 	EnableTouchscreenMovement(PlayerInputComponent);
@@ -297,4 +340,12 @@ bool ALiminalCharacter::EnableTouchscreenMovement(class UInputComponent* PlayerI
 	}
 	
 	return false;
+}
+
+void ALiminalCharacter::OnAction()
+{
+	if (CurrentDoor)
+	{
+		CurrentDoor->ToggleDoor();
+	}
 }

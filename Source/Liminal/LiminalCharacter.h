@@ -4,6 +4,8 @@
 
 #include "CoreMinimal.h"
 #include "GameFramework/Character.h"
+#include "Door.h"
+#include "Blueprint/UserWidget.h"
 #include "LiminalCharacter.generated.h"
 
 class UInputComponent;
@@ -51,6 +53,8 @@ public:
 protected:
 	virtual void BeginPlay();
 
+	virtual void Tick(float DeltaSecond) override;
+
 public:
 	/** Base turn rate, in deg/sec. Other scaling may affect final turn rate. */
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category=Camera)
@@ -80,10 +84,18 @@ public:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Gameplay)
 	uint32 bUsingMotionControllers : 1;
 
+	UPROPERTY(EditAnywhere)
+	class ADoor* CurrentDoor;
+
+	UPROPERTY(EditAnywhere)
+	class UUserWidget* InfoWidget;
+
 protected:
 	
 	/** Fires a projectile. */
 	void OnFire();
+
+	void OnAction();
 
 	/** Resets HMD orientation and position in VR. */
 	void OnResetVR();
