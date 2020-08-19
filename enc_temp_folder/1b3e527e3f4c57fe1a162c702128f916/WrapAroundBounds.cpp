@@ -14,15 +14,16 @@ AWrapAroundBounds::AWrapAroundBounds()
 	Boundries->SetCollisionResponseToAllChannels(ECollisionResponse::ECR_Overlap);
 
 	Boundries->OnComponentEndOverlap.AddDynamic(this, &AWrapAroundBounds::OnWrapAround);
+
+	Boundries->SetBoxExtent(Size);
+	SetActorLocation(FVector(0.f, 0.f, 0.f));
 }
 
 // Called when the game starts or when spawned
 void AWrapAroundBounds::BeginPlay()
 {
 	Super::BeginPlay();
-
-	Boundries->SetBoxExtent(Size);
-	SetActorLocation(FVector(0.f, 0.f, 0.f));
+	
 }
 
 // Called every frame
