@@ -100,10 +100,10 @@ void ALiminalCharacter::BeginPlay()
 	//	Mesh1P->SetHiddenInGame(false, true);
 	//}
 
-	if (InfoWidget)
-	{
-		InfoWidget->AddToViewport();
-	}
+	//if (InfoWidget)
+	//{
+	//	InfoWidget->AddToViewport();
+	//}
 }
 
 void ALiminalCharacter::Tick(float DeltaTime)

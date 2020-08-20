@@ -75,8 +75,8 @@ public:
 	UPROPERTY(EditAnywhere)
 	class ADoor* CurrentDoor;
 
-	UPROPERTY(EditAnywhere)
-	class UUserWidget* InfoWidget;
+	//UPROPERTY(EditAnywhere)
+	//class UUserWidget* InfoWidget;
 
 protected:
 	
