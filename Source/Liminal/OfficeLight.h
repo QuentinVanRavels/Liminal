@@ -6,6 +6,7 @@
 #include "GameFramework/Actor.h"
 #include "Components/StaticMeshComponent.h"
 #include "Components/RectLightComponent.h"
+#include "TimerManager.h"
 #include "OfficeLight.generated.h"
 
 UCLASS()
@@ -26,6 +27,14 @@ protected:
 
 	UPROPERTY(VisibleAnywhere, Category = "Light")
 	URectLightComponent* LightComponent;
+
+	UPROPERTY(EditAnywhere, Category = "Light")
+	bool bLightFlicker;
+
+	UFUNCTION()
+	void LightFlicker();
+
+	FTimerHandle LightTimerHandle;
 
 public:	
 	// Called every frame

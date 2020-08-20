@@ -1,4 +1,5 @@
 // Fill out your copyright notice in the Description page of Project Settings.
+
 #include "OfficeLight.h"
 
 // Sets default values
@@ -13,12 +14,16 @@ AOfficeLight::AOfficeLight()
 	LightMesh->SetupAttachment(RootComponent);
 	LightComponent = CreateDefaultSubobject<URectLightComponent>(TEXT("LightSource"));
 	LightComponent->SetupAttachment(RootComponent);
+
+	bLightFlicker = true;
 }
 
 // Called when the game starts or when spawned
 void AOfficeLight::BeginPlay()
 {
 	Super::BeginPlay();
+
+	GetWorldTimerManager().SetTimer(LightTimerHandle, this, &AOfficeLight::LightFlicker, FMath::RandRange(0.f, 5.f), true, FMath::RandRange(0.f, 5.f));
 	
 }
 
@@ -27,5 +32,10 @@ void AOfficeLight::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
 
+}
+
+void AOfficeLight::LightFlicker()
+{
+	LightComponent->ToggleVisibility();
 }
 
