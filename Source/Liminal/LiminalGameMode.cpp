@@ -13,5 +13,5 @@ ALiminalGameMode::ALiminalGameMode()
 	DefaultPawnClass = PlayerPawnClassFinder.Class;
 
 	// use our custom HUD class
-	HUDClass = ALiminalHUD::StaticClass();
+	//HUDClass = ALiminalHUD::StaticClass();
 }
