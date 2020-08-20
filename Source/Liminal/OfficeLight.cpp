@@ -1,5 +1,6 @@
 // Fill out your copyright notice in the Description page of Project Settings.
 
+#include "Components/TimelineComponent.h"
 #include "OfficeLight.h"
 
 // Sets default values
@@ -15,7 +16,12 @@ AOfficeLight::AOfficeLight()
 	LightComponent = CreateDefaultSubobject<URectLightComponent>(TEXT("LightSource"));
 	LightComponent->SetupAttachment(RootComponent);
 
-	bLightFlicker = true;
+	bLightFlicker = false;
+	MinFlickerTime = 0.3f;
+	MaxFlickerTime = 5.f;
+
+	PercentageFlickering = 50;
+
 }
 
 // Called when the game starts or when spawned
@@ -23,8 +29,24 @@ void AOfficeLight::BeginPlay()
 {
 	Super::BeginPlay();
 
-	GetWorldTimerManager().SetTimer(LightTimerHandle, this, &AOfficeLight::LightFlicker, FMath::RandRange(0.f, 5.f), true, FMath::RandRange(0.f, 5.f));
+	GetWorldTimerManager().SetTimer(LightTimerHandle, this, &AOfficeLight::StartLightFlicker, FMath::RandRange(MinFlickerTime, MaxFlickerTime), false, FMath::RandRange(0.f, 5.f));
 	
+	int randomNumber = rand() % 100;
+	if (randomNumber < PercentageFlickering)
+	{
+		bLightFlicker = true;
+	}
+	//init curve
+	if (LightCurve && bLightFlicker)
+	{
+		FOnTimelineFloat TimelineCallback;
+		FOnTimelineEvent TimelineFinishedCallback;
+
+		TimelineCallback.BindUFunction(this, FName("LightFlicker"));
+		TimelineFinishedCallback.BindUFunction(this, FName("LightFlickerEnd"));
+		MyTimeline.AddInterpFloat(LightCurve, TimelineCallback);
+		MyTimeline.SetTimelineFinishedFunc(TimelineFinishedCallback);
+	}
 }
 
 // Called every frame
@@ -32,10 +54,23 @@ void AOfficeLight::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
 
+	MyTimeline.TickTimeline(DeltaTime);
+}
+
+void AOfficeLight::StartLightFlicker()
+{
+	CurrentIntensity = LightComponent->Intensity;
+	MyTimeline.PlayFromStart();
 }
 
 void AOfficeLight::LightFlicker()
 {
-	LightComponent->ToggleVisibility();
+	TimelineValue = MyTimeline.GetPlaybackPosition();
+	LightComponent->SetIntensity(CurrentIntensity * LightCurve->GetFloatValue(TimelineValue));
 }
 
+void AOfficeLight::LightFlickerEnd()
+{
+	LightComponent->SetIntensity(CurrentIntensity);
+	GetWorldTimerManager().SetTimer(LightTimerHandle, this, &AOfficeLight::StartLightFlicker, FMath::RandRange(MinFlickerTime, MaxFlickerTime), false);
+}

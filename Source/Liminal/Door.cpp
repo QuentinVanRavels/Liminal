@@ -80,7 +80,7 @@ void ADoor::ToggleDoor()
 		FVector Direction = GetActorLocation() - PawnLocation;
 		Direction = UKismetMathLibrary::LessLess_VectorRotator(Direction, GetActorRotation());
 
-		DoorRotation = Door->RelativeRotation;
+		DoorRotation = Door->GetRelativeRotation();
 
 		if (Open)
 		{

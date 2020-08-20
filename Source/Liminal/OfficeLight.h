@@ -7,6 +7,8 @@
 #include "Components/StaticMeshComponent.h"
 #include "Components/RectLightComponent.h"
 #include "TimerManager.h"
+#include "Components/TimelineComponent.h"
+#include "Curves/CurveFloat.h"
 #include "OfficeLight.generated.h"
 
 UCLASS()
@@ -28,13 +30,36 @@ protected:
 	UPROPERTY(VisibleAnywhere, Category = "Light")
 	URectLightComponent* LightComponent;
 
-	UPROPERTY(EditAnywhere, Category = "Light")
+	UPROPERTY(EditAnywhere, Category = "Flicker")
 	bool bLightFlicker;
+
+	UPROPERTY(EditAnywhere, Category = "Flicker")
+	float MaxFlickerTime;
+
+	UPROPERTY(EditAnywhere, Category = "Flicker")
+	float MinFlickerTime;
+
+	UPROPERTY(EditAnywhere, Category = "Flicker")
+	int PercentageFlickering;
 
 	UFUNCTION()
 	void LightFlicker();
 
+	UFUNCTION()
+	void LightFlickerEnd();
+
+	UFUNCTION()
+	void StartLightFlicker();
+
 	FTimerHandle LightTimerHandle;
+
+	UPROPERTY(EditAnywhere, Category = "Flicker")
+	class UCurveFloat* LightCurve;
+
+	float CurveFloatValue;
+	float TimelineValue;
+	float CurrentIntensity;
+	FTimeline MyTimeline;
 
 public:	
 	// Called every frame
