@@ -15,8 +15,11 @@ ADoor::ADoor()
 	Open = false;
 	ReadyState = true;
 
+	USceneComponent* SceneComponent = CreateDefaultSubobject<USceneComponent>(TEXT("Root"));
+	RootComponent = SceneComponent;
+
 	DoorFrame = CreateDefaultSubobject<UStaticMeshComponent>(TEXT("Door Frame"));
-	RootComponent = DoorFrame;
+	DoorFrame->SetupAttachment(RootComponent);
 
 	Door = CreateDefaultSubobject<UStaticMeshComponent>(TEXT("Door"));
 	Door->SetupAttachment(RootComponent);
