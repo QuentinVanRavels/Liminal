@@ -1,7 +1,7 @@
 // Fill out your copyright notice in the Description page of Project Settings.
 
-#include "Components/TimelineComponent.h"
 #include "OfficeLight.h"
+#include "Components/TimelineComponent.h"
 
 // Sets default values
 AOfficeLight::AOfficeLight()
@@ -22,6 +22,12 @@ AOfficeLight::AOfficeLight()
 
 	PercentageFlickering = 50;
 
+	//link overlap
+	LightCollider = CreateDefaultSubobject<UBoxComponent>(TEXT("BoxCollider"));
+	LightCollider->SetupAttachment(RootComponent);
+	LightCollider->SetGenerateOverlapEvents(true);
+	LightCollider->SetCollisionResponseToAllChannels(ECollisionResponse::ECR_Overlap);
+	LightCollider->OnComponentEndOverlap.AddDynamic(this, &AOfficeLight::OnExitLightArea);
 }
 
 // Called when the game starts or when spawned
@@ -75,5 +81,13 @@ void AOfficeLight::LightFlickerEnd()
 	if (bLightFlicker)
 	{
 		GetWorldTimerManager().SetTimer(LightTimerHandle, this, &AOfficeLight::StartLightFlicker, FMath::RandRange(MinFlickerTime, MaxFlickerTime), false);
+	}
+}
+
+void AOfficeLight::OnExitLightArea(UPrimitiveComponent* OverlappedComp, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex)
+{
+	if (!bLightFlicker)
+	{
+		LightComponent->SetVisibility(false);
 	}
 }
