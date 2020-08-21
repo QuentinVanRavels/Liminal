@@ -60,7 +60,7 @@ void ADoor::ControlDoor()
 	TimelineValue = MyTimeline.GetPlaybackPosition();
 	CurveFloatValue = RotateValue * DoorCurve->GetFloatValue(TimelineValue);
 
-	FQuat NewRotation = FQuat(FRotator(0.0f, CurveFloatValue, 0.0f)) - FQuat(DoorFrame->GetRelativeRotation());
+	FQuat NewRotation = FQuat(FRotator(0.0f, CurveFloatValue, 0.0f));
 
 	Door->SetRelativeRotation(NewRotation);
 }
