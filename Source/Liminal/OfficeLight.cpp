@@ -1,7 +1,7 @@
 // Fill out your copyright notice in the Description page of Project Settings.
 
-#include "Components/TimelineComponent.h"
 #include "OfficeLight.h"
+#include "Components/TimelineComponent.h"
 
 // Sets default values
 AOfficeLight::AOfficeLight()
@@ -24,6 +24,7 @@ AOfficeLight::AOfficeLight()
 
 	//link overlap
 	LightCollider = CreateDefaultSubobject<UBoxComponent>(TEXT("BoxCollider"));
+	LightCollider->SetupAttachment(RootComponent);
 	LightCollider->SetGenerateOverlapEvents(true);
 	LightCollider->SetCollisionResponseToAllChannels(ECollisionResponse::ECR_Overlap);
 	LightCollider->OnComponentEndOverlap.AddDynamic(this, &AOfficeLight::OnExitLightArea);
