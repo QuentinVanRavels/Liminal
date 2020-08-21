@@ -72,5 +72,8 @@ void AOfficeLight::LightFlicker()
 void AOfficeLight::LightFlickerEnd()
 {
 	LightComponent->SetIntensity(CurrentIntensity);
-	GetWorldTimerManager().SetTimer(LightTimerHandle, this, &AOfficeLight::StartLightFlicker, FMath::RandRange(MinFlickerTime, MaxFlickerTime), false);
+	if (bLightFlicker)
+	{
+		GetWorldTimerManager().SetTimer(LightTimerHandle, this, &AOfficeLight::StartLightFlicker, FMath::RandRange(MinFlickerTime, MaxFlickerTime), false);
+	}
 }
