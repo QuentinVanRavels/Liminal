@@ -9,7 +9,6 @@
 #include "TimerManager.h"
 #include "Components/TimelineComponent.h"
 #include "Curves/CurveFloat.h"
-#include "Components/BoxComponent.h"
 #include "OfficeLight.generated.h"
 
 UCLASS()
@@ -30,9 +29,6 @@ protected:
 
 	UPROPERTY(VisibleAnywhere, Category = "Light")
 	URectLightComponent* LightComponent;
-
-	UPROPERTY(VisibleAnywhere, Category = "Components")
-	UBoxComponent* LightCollider;
 
 	UPROPERTY(EditAnywhere, Category = "Flicker")
 	bool bLightFlicker;
@@ -64,9 +60,6 @@ protected:
 	float TimelineValue;
 	float CurrentIntensity;
 	FTimeline MyTimeline;
-
-	UFUNCTION()
-	void OnExitLightArea(UPrimitiveComponent* OverlappedComp, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex);
 
 public:	
 	// Called every frame
