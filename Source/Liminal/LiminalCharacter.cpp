@@ -66,11 +66,10 @@ void ALiminalCharacter::Tick(float DeltaTime)
 	{
 		if (Hit.bBlockingHit)
 		{	
-
+			InfoWidget->SetVisibility(ESlateVisibility::Visible);
 			if (Hit.GetActor()->GetClass()->IsChildOf(ADoor::StaticClass()))
 			{
 				//InfoWidget->GetWidgetFromName("helpimage")->SetVisibility(ESlateVisibility::Visible);
-				InfoWidget->SetVisibility(ESlateVisibility::Visible);
 				CurrentDoor = Cast<ADoor>(Hit.Actor);
 			}
 			else if (Hit.GetActor()->GetClass()->IsChildOf(APickupDocument::StaticClass()))
@@ -160,9 +159,13 @@ void ALiminalCharacter::OnAction()
 	else if (CurrentDocument && !IsReadingDocument)
 	{
 		IsReadingDocument = true;
+		DocumentWidget = CurrentDocument->GetDocumentContent();
+		DocumentWidget->AddToViewport();
+		CurrentDocument->Destroy();
 	}
-	else if (CurrentDocument)
+	else if (IsReadingDocument)
 	{
 		IsReadingDocument = false;
+		DocumentWidget->RemoveFromViewport();
 	}
 }

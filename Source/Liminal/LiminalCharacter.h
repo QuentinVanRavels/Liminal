@@ -48,6 +48,9 @@ public:
 	UPROPERTY(EditAnywhere)
 	class UUserWidget* InfoWidget;
 
+
+	class UUserWidget* DocumentWidget;
+
 protected:
 
 	void OnAction();

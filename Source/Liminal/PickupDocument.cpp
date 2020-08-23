@@ -3,6 +3,8 @@
 
 #include "PickupDocument.h"
 #include "Components/StaticMeshComponent.h"
+#include "Blueprint/UserWidget.h"
+#include "Runtime/UMG/Public/UMG.h"
 
 // Sets default values
 APickupDocument::APickupDocument()
@@ -32,3 +34,7 @@ void APickupDocument::Tick(float DeltaTime)
 
 }
 
+UUserWidget* APickupDocument::GetDocumentContent()
+{
+	return DocumentContent;
+}

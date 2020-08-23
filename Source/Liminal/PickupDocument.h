@@ -22,8 +22,13 @@ protected:
 	UPROPERTY(VisibleAnywhere, Category = "Components")
 	UStaticMeshComponent* DocumentMesh;
 
+	UPROPERTY(EditAnywhere, Category = "Document")
+	UUserWidget* DocumentContent;
+
 public:	
 	// Called every frame
 	virtual void Tick(float DeltaTime) override;
+
+	UUserWidget* GetDocumentContent();
 
 };
