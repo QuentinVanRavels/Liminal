@@ -9,12 +9,7 @@ AWrapAroundBounds::AWrapAroundBounds()
  	// Set this actor to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
 	PrimaryActorTick.bCanEverTick = false;
 
-
-	USceneComponent* SceneComponent = CreateDefaultSubobject<USceneComponent>(TEXT("Root"));
-	RootComponent = SceneComponent;
-
 	Boundries = CreateDefaultSubobject<UBoxComponent>(TEXT("Boundries"));
-	Boundries->SetupAttachment(RootComponent);
 	Boundries->SetGenerateOverlapEvents(true);
 	Boundries->SetCollisionResponseToAllChannels(ECollisionResponse::ECR_Overlap);
 
