@@ -108,15 +108,15 @@ void ALiminalCharacter::SetupPlayerInputComponent(class UInputComponent* PlayerI
 	// We have 2 versions of the rotation bindings to handle different kinds of devices differently
 	// "turn" handles devices that provide an absolute delta, such as a mouse.
 	// "turnrate" is for devices that we choose to treat as a rate of change, such as an analog joystick
-	PlayerInputComponent->BindAxis("Turn", this, &APawn::AddControllerYawInput);
+	PlayerInputComponent->BindAxis("Turn", this, &ALiminalCharacter::TurnAtRateMouse);
 	PlayerInputComponent->BindAxis("TurnRate", this, &ALiminalCharacter::TurnAtRate);
-	PlayerInputComponent->BindAxis("LookUp", this, &APawn::AddControllerPitchInput);
+	PlayerInputComponent->BindAxis("LookUp", this, &ALiminalCharacter::LookUpAtRateMouse);
 	PlayerInputComponent->BindAxis("LookUpRate", this, &ALiminalCharacter::LookUpAtRate);
 }
 
 void ALiminalCharacter::MoveForward(float Value)
 {
-	if (Value != 0.0f)
+	if (Value != 0.0f && !IsReadingDocument)
 	{
 		// add movement in that direction
 		AddMovementInput(GetActorForwardVector(), Value);
@@ -125,7 +125,7 @@ void ALiminalCharacter::MoveForward(float Value)
 
 void ALiminalCharacter::MoveRight(float Value)
 {
-	if (Value != 0.0f)
+	if (Value != 0.0f && !IsReadingDocument)
 	{
 		// add movement in that direction
 		AddMovementInput(GetActorRightVector(), Value);
@@ -141,12 +141,30 @@ void ALiminalCharacter::TurnAtRate(float Rate)
 	}
 }
 
+void ALiminalCharacter::TurnAtRateMouse(float Rate)
+{
+	if (!IsReadingDocument)
+	{
+		// calculate delta for this frame from the rate information
+		AddControllerYawInput(Rate);
+	}
+}
+
 void ALiminalCharacter::LookUpAtRate(float Rate)
 {
 	if (!IsReadingDocument)
 	{
 		// calculate delta for this frame from the rate information
 		AddControllerPitchInput(Rate * BaseLookUpRate * GetWorld()->GetDeltaSeconds());
+	}
+}
+
+void ALiminalCharacter::LookUpAtRateMouse(float Rate)
+{
+	if (!IsReadingDocument)
+	{
+		// calculate delta for this frame from the rate information
+		AddControllerPitchInput(Rate);
 	}
 }
 

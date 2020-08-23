@@ -67,11 +67,14 @@ protected:
 	 */
 	void TurnAtRate(float Rate);
 
+	void TurnAtRateMouse(float Rate);
+
 	/**
 	 * Called via input to turn look up/down at a given rate.
 	 * @param Rate	This is a normalized rate, i.e. 1.0 means 100% of desired turn rate
 	 */
 	void LookUpAtRate(float Rate);
+	void LookUpAtRateMouse(float Rate);
 	
 protected:
 	// APawn interface
