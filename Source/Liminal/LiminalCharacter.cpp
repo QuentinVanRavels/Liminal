@@ -123,9 +123,13 @@ void ALiminalCharacter::Tick(float DeltaTime)
 	if (GetWorld()->LineTraceSingleByChannel(Hit, Start, End, ECC_Visibility, CollisionParams))
 	{
 		if (Hit.bBlockingHit)
+<<<<<<< HEAD
 		{
-			InfoWidget->SetVisibility(ESlateVisibility::Visible);	
+			InfoWidget->SetVisibility(ESlateVisibility::Visible);
+=======
+		{	
 
+>>>>>>> parent of 27c83d8... Merge branch 'add-journals'
 			if (Hit.GetActor()->GetClass()->IsChildOf(ADoor::StaticClass()))
 			{
 				//InfoWidget->GetWidgetFromName("helpimage")->SetVisibility(ESlateVisibility::Visible);
