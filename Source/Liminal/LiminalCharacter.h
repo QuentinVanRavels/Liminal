@@ -5,7 +5,6 @@
 #include "CoreMinimal.h"
 #include "GameFramework/Character.h"
 #include "Door.h"
-#include "PickupDocument.h"
 #include "Blueprint/UserWidget.h"
 #include "LiminalCharacter.generated.h"
 
@@ -15,6 +14,26 @@ UCLASS(config=Game)
 class ALiminalCharacter : public ACharacter
 {
 	GENERATED_BODY()
+
+	/** Pawn mesh: 1st person view (arms; seen only by self) */
+	//UPROPERTY(VisibleDefaultsOnly, Category=Mesh)
+	//class USkeletalMeshComponent* Mesh1P;
+
+	/** Gun mesh: 1st person view (seen only by self) */
+	//UPROPERTY(VisibleDefaultsOnly, Category = Mesh)
+	//class USkeletalMeshComponent* FP_Gun;
+
+	/** Location on gun mesh where projectiles should spawn. */
+	//UPROPERTY(VisibleDefaultsOnly, Category = Mesh)
+	//class USceneComponent* FP_MuzzleLocation;
+
+	/** Gun mesh: VR view (attached to the VR controller directly, no arm, just the actual gun) */
+	//UPROPERTY(VisibleDefaultsOnly, Category = Mesh)
+	//class USkeletalMeshComponent* VR_Gun;
+
+	/** Location on VR gun mesh where projectiles should spawn. */
+	//UPROPERTY(VisibleDefaultsOnly, Category = Mesh)
+	//class USceneComponent* VR_MuzzleLocation;
 
 	/** First person camera */
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = Camera, meta = (AllowPrivateAccess = "true"))
@@ -37,21 +56,32 @@ public:
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category=Camera)
 	float BaseLookUpRate;
 
-	UPROPERTY(VisibleAnywhere)
-	class ADoor* CurrentDoor;
+	/** Gun muzzle's offset from the characters location */
+	//UPROPERTY(EditAnywhere, BlueprintReadWrite, Category=Gameplay)
+	//FVector GunOffset;
 
-	UPROPERTY(VisibleAnywhere)
-	class APickupDocument* CurrentDocument;
+	/** Projectile class to spawn */
+	//UPROPERTY(EditDefaultsOnly, Category=Projectile)
+	//TSubclassOf<class ALiminalProjectile> ProjectileClass;
 
-	bool IsReadingDocument;
+	/** Sound to play each time we fire */
+	//UPROPERTY(EditAnywhere, BlueprintReadWrite, Category=Gameplay)
+	//class USoundBase* FireSound;
+
+	/** AnimMontage to play each time we fire */
+	//UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Gameplay)
+	//class UAnimMontage* FireAnimation;
 
 	UPROPERTY(EditAnywhere)
-	class UUserWidget* InfoWidget;
+	class ADoor* CurrentDoor;
 
-
-	class UUserWidget* DocumentWidget;
+	//UPROPERTY(EditAnywhere)
+	//class UUserWidget* InfoWidget;
 
 protected:
+	
+	/** Fires a projectile. */
+	//void OnFire();
 
 	void OnAction();
 
@@ -67,11 +97,14 @@ protected:
 	 */
 	void TurnAtRate(float Rate);
 
+	void TurnAtRateMouse(float Rate);
+
 	/**
 	 * Called via input to turn look up/down at a given rate.
 	 * @param Rate	This is a normalized rate, i.e. 1.0 means 100% of desired turn rate
 	 */
 	void LookUpAtRate(float Rate);
+	void LookUpAtRateMouse(float Rate);
 	
 protected:
 	// APawn interface
