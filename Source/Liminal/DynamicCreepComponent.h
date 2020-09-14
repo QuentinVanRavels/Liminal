@@ -5,6 +5,7 @@
 #include "CoreMinimal.h"
 #include "Components/ActorComponent.h"
 #include "Materials/MaterialInstanceDynamic.h"
+#include "GameFramework/Actor.h"
 #include "DynamicCreepComponent.generated.h"
 
 
@@ -26,7 +27,13 @@ protected:
 
 	float CreepFactor;
 
+	UPROPERTY(EditAnywhere, Category = "CreepFactor")
+	float ChangeDuration = 60.f;
+
 	AActor* Owner;
+
+	void IncreaseCreepyness();
+	FTimerHandle TimerHandle;
 
 public:	
 	// Called every frame
