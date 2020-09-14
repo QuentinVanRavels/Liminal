@@ -23,7 +23,13 @@ protected:
 	virtual void BeginPlay() override;
 
 	UPROPERTY(VisibleAnywhere, Category = "Material")
-	UMaterialInstanceDynamic* MaterialDynamic;
+	UMaterialInstanceDynamic* MaterialDynamic1;
+
+	UPROPERTY(VisibleAnywhere, Category = "Material")
+	UMaterialInstanceDynamic* MaterialDynamic2;
+
+	UPROPERTY(VisibleAnywhere, Category = "Material")
+	UMaterialInstanceDynamic* MaterialDynamic3;
 
 	float CreepFactor;
 
@@ -34,6 +40,8 @@ protected:
 
 	void IncreaseCreepyness();
 	FTimerHandle TimerHandle;
+
+	int NumberOfMaterials;
 
 public:	
 	// Called every frame

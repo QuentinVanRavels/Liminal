@@ -67,14 +67,15 @@ void ALiminalCharacter::Tick(float DeltaTime)
 	{
 		if (Hit.bBlockingHit)
 		{
-			InfoWidget->SetVisibility(ESlateVisibility::Visible);
 			if (Hit.GetActor()->GetClass()->IsChildOf(ADoor::StaticClass()))
 			{
 				//InfoWidget->GetWidgetFromName("helpimage")->SetVisibility(ESlateVisibility::Visible);
+				InfoWidget->SetVisibility(ESlateVisibility::Visible);
 				CurrentDoor = Cast<ADoor>(Hit.Actor);
 			}
 			else if (Hit.GetActor()->GetClass()->IsChildOf(APickupDocument::StaticClass()))
 			{
+				InfoWidget->SetVisibility(ESlateVisibility::Visible);
 				CurrentDocument = Cast<APickupDocument>(Hit.Actor);
 			}
 		}
