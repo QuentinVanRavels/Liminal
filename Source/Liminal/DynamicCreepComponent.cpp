@@ -52,7 +52,7 @@ void UDynamicCreepComponent::BeginPlay()
 		}
 	}
 
-	GetWorld()->GetTimerManager().SetTimer(TimerHandle, this, &UDynamicCreepComponent::IncreaseCreepyness, 0.01, true, 0.01);
+	GetWorld()->GetTimerManager().SetTimer(TimerHandle, this, &UDynamicCreepComponent::IncreaseCreepyness, 1.f, true, 1.f);
 }
 
 // Called every frame
@@ -63,7 +63,7 @@ void UDynamicCreepComponent::TickComponent(float DeltaTime, ELevelTick TickType,
 
 void UDynamicCreepComponent::IncreaseCreepyness()
 {
-	const float incrementValue = 0.01 / ChangeDuration;
+	const float incrementValue = 1.f / ChangeDuration;
 	CreepFactor += incrementValue;
 	if (NumberOfMaterials >= 1)
 	{
