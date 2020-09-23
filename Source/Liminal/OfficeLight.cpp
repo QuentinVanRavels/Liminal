@@ -20,7 +20,7 @@ AOfficeLight::AOfficeLight()
 	MinFlickerTime = 0.3f;
 	MaxFlickerTime = 5.f;
 
-	PercentageFlickering = 50;
+	PercentageFlickering = 8;
 
 	//link overlap
 	LightCollider = CreateDefaultSubobject<UBoxComponent>(TEXT("BoxCollider"));
